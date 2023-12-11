@@ -1,5 +1,6 @@
 import { useState } from "react";
 // import Menu from "./Menu.jsx";
+import { v1 as generateUniqueID } from "uuid"
 
 import Footer from "./Footer";
 import Header from "./Header";
@@ -16,24 +17,32 @@ function App() {
   // State for total cost
   const [total, setTotal] = useState(0)
 
+  const databaseId = generateUniqueID()
 
   function generateSpiceLevel(spiceLevel){
     const chilis = "🌶️".repeat(spiceLevel)
     return <span>{chilis}</span>
-}
+  }
 
-function addToOrder(item){
-  const newOrderItem = {
+  function addToOrder(item){
+    const newOrderItem = {
+      id: databaseId,
       name: item.name,
       price: item.price
     }
     setCurrentOrder([...currentOrder, newOrderItem])
-}
+  }
 
-const removeItem = (name) => {
-  const updatedOrder = currentOrder.filter((item) => item.name !== name)
-  setCurrentOrder(updatedOrder)
-}
+  function removeItem(id, price){
+    const updatedOrder = currentOrder.filter((item) => item.id !== id)
+    setCurrentOrder(updatedOrder)
+  }
+
+  function calculateTotal(){
+    return currentOrder.reduce((acc, current) => (
+      acc + current.price), 0)
+  }
+
 
   return (
     <div className="App">
@@ -50,7 +59,7 @@ const removeItem = (name) => {
                   <br></br>
                   <span>{generateSpiceLevel(singleItem.spiceLevel)}</span>
                 </td>
-                <td>{singleItem.price}</td>
+                <td>${singleItem.price}</td>
               </tr>
               ))}
             </tbody>
@@ -61,14 +70,14 @@ const removeItem = (name) => {
             <h2>Current Order</h2>
             <ul>
               {currentOrder.map((item, index) => (
-                <li key={index}>
-                  <span onClick={()=>removeItem(item.name)}>❌</span>
+                <li key={item.id}>
+                  <span onClick={()=>removeItem(item.id, item.price)}>❌</span>
                   <span>{item.name}</span>
-                  <span>{item.price}</span>
+                  <span>${item.price}</span>
                 </li>
               ))}
             </ul>
-            <h4>Total:</h4>
+            <h4>Total: ${calculateTotal()}</h4>
             <div>
               <button>Tidy order</button>
               <button>Close order</button>
