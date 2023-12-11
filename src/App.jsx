@@ -15,13 +15,19 @@ function App() {
     return emojis
   }
   const addToOrder = (item) => {
-    const selectedItem = <li><span onClick={() => removeItem(item)}>❌</span>  <span>{item.name}</span>  ${item.price}</li>
-    setOrder([...order, selectedItem])
-    setTotal(total + item.price)
+    const selectedItem = <li key={order.length}><span onClick={() => removeItem(item.name, item.price)}>❌</span>  <span>{item.name}</span>  ${item.price}</li>
+    setOrder((prevOrder) => [...prevOrder, selectedItem]);
+    setTotal((prevTotal)=> prevTotal +item.price)
   }
-  const removeItem = (name) => {
+  const removeItem = (name, price) => {
     const filteredMenu = order.filter(item => item.name !== name)
     setOrder(filteredMenu)
+    setTotal((prevTotal)=> prevTotal - price)
+  }
+
+  const closeOrder = () => {
+    setOrder([])
+    setTotal(0)
   }
   
 
@@ -56,7 +62,7 @@ function App() {
             <h4>Total: ${total}</h4>
             <div>
               <button>Tidy order</button>
-              <button>Close order</button>
+              <button onClick={closeOrder}>Close order</button>
             </div>
           </div>
         </section>
