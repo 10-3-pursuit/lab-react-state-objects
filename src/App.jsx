@@ -17,8 +17,7 @@ function App() {
   // State for total cost
   const [total, setTotal] = useState(0)
 
-  const databaseId = generateUniqueID()
-
+  
   function generateSpiceLevel(spiceLevel){
     const chilis = "🌶️".repeat(spiceLevel)
     return <span>{chilis}</span>
@@ -26,7 +25,7 @@ function App() {
 
   function addToOrder(item){
     const newOrderItem = {
-      id: databaseId,
+      id: generateUniqueID(),
       name: item.name,
       price: item.price
     }
@@ -43,6 +42,9 @@ function App() {
       acc + current.price), 0)
   }
 
+  function closeOrder(){
+    setCurrentOrder([])
+  }
 
   return (
     <div className="App">
@@ -80,7 +82,7 @@ function App() {
             <h4>Total: ${calculateTotal()}</h4>
             <div>
               <button>Tidy order</button>
-              <button>Close order</button>
+              <button onClick={closeOrder}>Close order</button>
             </div>
           </div>
         </section>
