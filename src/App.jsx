@@ -1,10 +1,9 @@
 import { useState } from "react";
-// import Menu from "./Menu.jsx";
 import { v1 as generateUniqueID } from "uuid"
-
 import Footer from "./Footer";
 import Header from "./Header";
 import menuItemsData from "./data";
+// import Menu from "./Menu.jsx";
 
 function App() {
 
@@ -39,18 +38,6 @@ function App() {
     setCurrentOrder([])
     setTotal(0)
   }
-
-  // function tidyOrder(currentOrder){
-  //   const count = currentOrder.reduce((acc, current) => {
-  //     if(!acc[current.name]){
-  //       acc[current.name] = 1
-  //     } else {
-  //       acc[current.name] += 1
-  //     }
-  //     return acc
-  //   }, {})
-
-  // }
 
   return (
     <div className="App">
