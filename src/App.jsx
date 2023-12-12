@@ -25,23 +25,23 @@ function App() {
       price: item.price
     }
     setCurrentOrder([...currentOrder, newOrderItem])
+    setTotal((prevTotal) => prevTotal + newOrderItem.price)
   }
 
   function removeItem(id){
     const updatedOrder = currentOrder.filter((item) => item.id !== id)
+    const itemToRemove = currentOrder.find(item => item.id === id)
     setCurrentOrder(updatedOrder)
-  }
+    setTotal((prevTotal) => prevTotal - itemToRemove.price)
 
-  function calculateTotal(){
-    return currentOrder.reduce((acc, current) => (
-      acc + current.price), 0)
   }
 
   function closeOrder(){
     setCurrentOrder([])
+    setTotal(0)
   }
 
-  // function tidyOrder()
+  // function tidyOrder(){}
 
   return (
     <div className="App">
@@ -76,7 +76,7 @@ function App() {
                 </li>
               ))}
             </ul>
-            <h4>Total: ${calculateTotal()}</h4>
+            <h4>Total: ${total}</h4>
             <div>
               <button>Tidy order</button>
               <button onClick={closeOrder}>Close order</button>
