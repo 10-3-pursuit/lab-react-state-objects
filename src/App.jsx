@@ -3,43 +3,37 @@ import Footer from "./Footer";
 import Header from "./Header";
 import menuItems from "./data";
 
-// USE STATES 
 function App() {
+  // State for current order and past orders
   const [currentOrder, setCurrentOrder] = useState([]);
   const [pastOrders, setPastOrders] = useState([]);
 
-// Function to add an item to the current order
-function addToOrder(menuItem) {
-  // Check if the item already exists in the current order
-  const existingItemIndex = currentOrder.findIndex(item => item.id === menuItem.id);
+  // Function to add an item to the current order
+  // .Find to get item id
+  function addToOrder(menuItem) {
+    const existingItem = currentOrder.find(item => item.id === menuItem.id);
 
-  // If the item exists, update its quantity
-  if (existingItemIndex !== -1) {
-    setCurrentOrder(prevOrder => {
-      const newOrder = [...prevOrder];
-      newOrder[existingItemIndex].quantity += 1;
-      return newOrder;
-    });
-  } else {
-    // If the item is not in the order, add it with quantity 1
-    setCurrentOrder(prevOrder => [...prevOrder, { ...menuItem, quantity: 1 }]);
-  }
-}
-
-  // REMOVES AN ITEM FROM THE CURRENT ORDER
-  function removeFromOrder(itemId, itemPrice) {
-    // FILTER OUT THE ITEM WITH THE ID
-    setCurrentOrder(function (prevOrder) {
-      return prevOrder.filter(function (item) {
-        return item.id !== itemId;
-      });
-    });
+    if (existingItem) {
+      // If item exists, update quantity
+      setCurrentOrder(prevOrder => prevOrder.map(item =>
+        item.id === menuItem.id ? { ...item, quantity: item.quantity + 1 } : item
+      ));
+    } else {
+      // If item is not in order, add with quantity 1
+      setCurrentOrder(prevOrder => [...prevOrder, { ...menuItem, quantity: 1 }]);
+    }
   }
 
+  // Function to remove an item from the current order
+  // .Filter to remove item
+  function removeFromOrder(itemId) {
+    setCurrentOrder(prevOrder => prevOrder.filter(item => item.id !== itemId));
+  }
+
+  // Function to tidy the order (combine items with quantity)
   function tidyOrder() {
     const itemMap = new Map();
-
-    currentOrder.forEach(function (item) {
+    currentOrder.forEach(item => {
       const existingItem = itemMap.get(item.id);
 
       if (existingItem) {
@@ -50,23 +44,24 @@ function addToOrder(menuItem) {
     });
 
     const tidiedOrder = Array.from(itemMap.values());
-
     setCurrentOrder(tidiedOrder);
   }
 
-// Function to close the current order and move it to past orders
-// Use the spread operator to make a copy of the data and update the state.
-function closeOrder() {
-  setPastOrders(prevOrders => [...prevOrders, ...currentOrder]);
-  setCurrentOrder([]);
-}
+  // Function to close the current order and move it to past orders
+  function closeOrder() {
+    setPastOrders(prevOrders => [...prevOrders, ...currentOrder]);
+    setCurrentOrder([]);
+  }
 
-// Function to calculate the total cost of an order
-// The reduce function helps it sum up the total cost of items in the order
-function calculateTotal(order) {
-  return order.reduce((total, item) => total + item.price * item.quantity, 0);
-}
+  // Function to calculate the total cost of an order
+  function calculateTotal(order) {
+    return order.reduce((total, item) => total + item.price * item.quantity, 0);
+  }
 
+
+
+
+//FULL RENDER AND DISPLAY
   return (
     <div className="App">
       <Header />
@@ -84,9 +79,7 @@ function calculateTotal(order) {
               {menuItems.map(function (menuItem) {
                 return (
                   <tr key={menuItem.id} onClick={() => addToOrder(menuItem)}>
-                    <td>
-                      <img src={menuItem.image} alt={menuItem.name} />
-                    </td>
+                    <td> {menuItem.image} </td>
                     <td className="item-name">
                       <span>{menuItem.name}</span> <br />
                       <span>{"🌶️".repeat(menuItem.spiceLevel)}</span>
