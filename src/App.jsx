@@ -1,3 +1,5 @@
+import { useState } from "react";
+import menuItems from "./data"
 import Footer from "./Footer";
 import Header from "./Header";
 
