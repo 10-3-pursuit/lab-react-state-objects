@@ -13,7 +13,7 @@ function App() {
     const index = currentOrder.findIndex(item => item.id === id);
     const item = currentOrder[index];
     const quantity = item.quantity;
-    if (quantity && quantity > 1) {
+    if (quantity > 1) {
       item.quantity = item.quantity - 1;
     } else if (quantity === 1) {
       item.quantity = 0;
@@ -34,7 +34,6 @@ function App() {
   }
 
   function addItem(menuItem) {
-    // console.log("New item added to order,", menuItem.name);
     const newItem = JSON.parse(JSON.stringify(menuItem));
     newItem.id = generateUniqueID();
     setCurrentOrder(currentVal => [newItem, ...currentVal]);
