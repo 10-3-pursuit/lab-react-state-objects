@@ -25,15 +25,14 @@ function App() {
       price: item.price
     }
     setCurrentOrder([...currentOrder, newOrderItem])
-    setTotal((prevTotal) => prevTotal + newOrderItem.price)
+    setTotal((previousTotal) => previousTotal + newOrderItem.price)
   }
 
   function removeItem(id){
     const updatedOrder = currentOrder.filter((item) => item.id !== id)
     const itemToRemove = currentOrder.find(item => item.id === id)
     setCurrentOrder(updatedOrder)
-    setTotal((prevTotal) => prevTotal - itemToRemove.price)
-
+    setTotal((previousTotal) => previousTotal - itemToRemove.price)
   }
 
   function closeOrder(){
@@ -41,7 +40,18 @@ function App() {
     setTotal(0)
   }
 
-  // function tidyOrder(){}
+  function tidyOrder(currentOrder){
+    const count = currentOrder.reduce((acc, current) => {
+      if(!acc[current.name]){
+        acc[current.name] = 1
+      } else {
+        acc[current.name] += 1
+      }
+      return acc
+    }, {})
+  
+  }
+
 
   return (
     <div className="App">
