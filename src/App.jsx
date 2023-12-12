@@ -17,11 +17,6 @@ function App() {
   // State for total cost
   const [total, setTotal] = useState(0)
 
-  
-  function generateSpiceLevel(spiceLevel){
-    const chilis = "🌶️".repeat(spiceLevel)
-    return <span>{chilis}</span>
-  }
 
   function addToOrder(item){
     const newOrderItem = {
@@ -32,7 +27,7 @@ function App() {
     setCurrentOrder([...currentOrder, newOrderItem])
   }
 
-  function removeItem(id, price){
+  function removeItem(id){
     const updatedOrder = currentOrder.filter((item) => item.id !== id)
     setCurrentOrder(updatedOrder)
   }
@@ -45,6 +40,8 @@ function App() {
   function closeOrder(){
     setCurrentOrder([])
   }
+
+  // function tidyOrder()
 
   return (
     <div className="App">
@@ -59,7 +56,7 @@ function App() {
                 <td className="item-name">
                   <span>{singleItem.name}</span>
                   <br></br>
-                  <span>{generateSpiceLevel(singleItem.spiceLevel)}</span>
+                  <span>{"🌶️".repeat(singleItem.spiceLevel)}</span>
                 </td>
                 <td>${singleItem.price}</td>
               </tr>
@@ -73,7 +70,7 @@ function App() {
             <ul>
               {currentOrder.map((item, index) => (
                 <li key={item.id}>
-                  <span onClick={()=>removeItem(item.id, item.price)}>❌</span>
+                  <span onClick={()=>removeItem(item.id)}>❌</span>
                   <span>{item.name}</span>
                   <span>${item.price}</span>
                 </li>
