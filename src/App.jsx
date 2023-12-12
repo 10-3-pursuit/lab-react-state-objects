@@ -29,7 +29,7 @@ function App() {
       modifiedArr[foundItem].quantity -= 1
       setCurrentOrder(modifiedArr)
     }else{
-      const newArr = modifiedArr.filter(item=> item.id!==itemID)
+      const newArr = modifiedArr.filter((item,index)=>index !== foundItem )
       setCurrentOrder(newArr)
     }
     setTotal(orderTotal - modifiedArr[foundItem].price)
@@ -41,17 +41,19 @@ function App() {
   }
 
   function tidyOrder(){
-    const tidyList = [];
+    const tidyList = currentOrder.filter(item=> item.quantity);
+    const untidiedList = currentOrder.filter(item=> !item.quantity)
 
-    currentOrder.forEach(item=>{
+    untidiedList.forEach(item=>{
       const existingItem = tidyList.find(tidyItem=> tidyItem.name === item.name)
       if(existingItem){
-        existingItem.quantity = (existingItem.quantity||0) + 1
+        existingItem.quantity +=1
       }else{
         tidyList.push(item)
         const addeditem = tidyList.findIndex(tidyItem=> tidyItem.name === item.name)
         tidyList[addeditem].quantity = 1
       }
+      
     })
     setCurrentOrder(tidyList)
   }
