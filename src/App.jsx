@@ -1,13 +1,29 @@
 import Footer from "./Footer";
 import Header from "./Header";
+import data from "./data"
+import { useState } from "react";
+
+
 
 function App() {
+  const [menu, setMenu] = useState(data);
   return (
     <div className="App">
       <Header />
       <main>
         <aside>
-          <table></table>
+          <table>
+          <tbody>
+            {menu.map(menuItem => <tr key={menuItem.id} > 
+              <td>{menuItem.image}</td>
+              <td className="item-name">
+              <span>{menuItem.name}</span> <br></br>
+              <span>{"🌶️".repeat(menuItem.spiceLevel)}</span>
+              </td>
+              <td>{menuItem.price}</td>
+               </tr>)}
+               </tbody>
+          </table>
         </aside>
         <section>
           <div>
