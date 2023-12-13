@@ -16,7 +16,7 @@ function App() {
     if (quantity > 0) {
       item.quantity = item.quantity - 1;
     } else if (!quantity) {
-      quantity = 0;
+      item.quantity = 0;
     }
 
     const newOrder = [];
