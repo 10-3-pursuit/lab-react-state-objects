@@ -3,6 +3,7 @@ import { useState } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import Menu from "./Menu";
+import OrderItem from "./OrderItem";
 
 function App() {
   const [orderItems, setOrderItems] = useState();
@@ -12,7 +13,6 @@ function App() {
     setOrderItems([]);
     setTotal(0);
   }
-
 
   return (
     <div className="App">
@@ -27,10 +27,7 @@ function App() {
             <ul>
               {orderItems && orderItems.map((item) => {
                 return (
-                  <li key={item.id}>
-                    <span>{item.name}</span>
-                    <span>${item.price}</span>
-                  </li>
+                  <OrderItem item={item} key={item.id} orderItems={orderItems} setOrderItems={setOrderItems} total={total} setTotal={setTotal} />
                 )
               })}
             </ul>
