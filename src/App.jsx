@@ -8,6 +8,11 @@ function App() {
   const [orderItems, setOrderItems] = useState();
   const [total, setTotal] = useState(0);
 
+  const closeOrder = () => {
+    setOrderItems([]);
+    setTotal(0);
+  }
+
 
   return (
     <div className="App">
@@ -32,7 +37,7 @@ function App() {
             <h4>Total: ${total}</h4>
             <div>
               <button>Tidy order</button>
-              <button>Close order</button>
+              <button onClick={() => closeOrder()}>Close order</button>
             </div>
           </div>
         </section>
