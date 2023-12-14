@@ -8,14 +8,20 @@ const showPeppers = (num) => {
     return peppers;
 }
 
-const Menu = () => {
+const Menu = ({ orderItems, setOrderItems, total, setTotal }) => {
+    const addItemToOrder = (item) => {
+        orderItems === undefined ? setOrderItems([item]) : setOrderItems([...orderItems, item]);
+        setTotal(total + item.price);
+    }
+
     return (
         <table>
             <tbody>
                 {menu.map((item) => {
                     const { id, image, name, price, spiceLevel } = item;
                     return (
-                        <tr key={id}>
+                        <tr key={id}
+                            onClick={() => addItemToOrder(item)}>
                             <td>{image}</td>
                             <td className="item-name">
                                 <span>{name}</span><br />
