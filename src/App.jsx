@@ -1,12 +1,12 @@
 import Footer from "./Footer";
 import Header from "./Header";
-import data from "./data"
+// import data from "./data";
 import { useState } from "react";
 import "./index.css"
 import menuItems from "./data";
 
 function App() {
-  const [menu, setMenu] = useState(data);
+  // const [menu, setMenu] = useState(data);
   // state for managing the current order and price
   const [currentOrder, setCurrentOrder] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -33,9 +33,7 @@ function App() {
     <li key={index}>
       <span onClick={() => removeOrders(index, item.price)}>
       ❌
-      {item.name}: {item.quantity} - ${item.price.toFixed(2)} {" "}
-      {/* extra line below may or may not be needed - will see */}
-      <button onClick={() => removeOrders}></button>
+      {item.name}: {item.amount}- ${item.price.toFixed(2)} {" "}
       </span>
     </li>
   ));
@@ -66,6 +64,22 @@ function App() {
   const newTotal = anotherOrder.reduce((total, item) => total + (item.price * item.amount), 0);
   setTotalPrice(newTotal);
   };
+
+  const menuItemsList = menuItems.map((item) => (
+    <tbody>
+    <tr key={item.id} onClick={() => addToCurrentOrder(item)}>
+      <td>
+        {item.image}
+      </td>
+      <td className="item-name">
+        <span>{item.name}</span>
+        <br />
+        <span>{"🌶️".repeat(item.spiceLevel)}</span>
+      </td>
+      <td>${item.price.toFixed(2)}</td>
+    </tr>
+    </tbody>
+  ));
   
   return (
     <div className="App">
@@ -73,8 +87,9 @@ function App() {
       <main>
         <aside>
           <table>
-          <tbody>
-            {menu.map(menuItem => <tr key={menuItem.id} > 
+            <>{menuItemsList}</>
+          {/* <tbody>
+            {menuItems.map(menuItem => <tr key={menuItem.id} > 
               <td>{menuItem.image}</td>
               <td className="item-name">
               <span>{menuItem.name}</span> <br></br>
@@ -82,13 +97,13 @@ function App() {
               </td>
               <td>{menuItem.price}</td>
                </tr>)}
-               </tbody>
+               </tbody> */}
           </table>
         </aside>
         <section>
           <div>
             <h2>Current Order</h2>
-            <ul>{currentOrder}</ul>
+            <ul>{Order}</ul>
             <h4>Total: ${totalPrice.toFixed(2)}</h4>
             <div>
               <button onClick={tidyOrder}>Tidy order</button>
